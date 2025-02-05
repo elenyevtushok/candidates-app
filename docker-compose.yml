@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:8
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: candidates-app
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  candidates:
+    build:
+      context: ./backend # Path to the backend folder
+      dockerfile: Dockerfile
+    container_name: candidates-service
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000" # Change to your backend port
+    environment:
+      MONGO_URI: mongodb://admin:secret@mongo:27017/mydatabase
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend # Path to the frontend folder
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  mongo_data:
+    driver: local
