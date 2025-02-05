@@ -1,42 +1,43 @@
-version: '3.9'
 services:
-  dev:
-    container_name: server-dev
-    image: server-dev:1.0.0
-    build:
-      context: .
-      target: development
-      dockerfile: ./Dockerfile
-    command: npm run start:debug
+  mongo:
+    image: mongo:8
+    container_name: mongodb
+    restart: always
     ports:
-      - 3000:3000
-      - 9229:9229
-    networks:
-      - server-network
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: candidates-app
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    restart: unless-stopped
-    depends_on:
-      - mongodb
-    environment:
-      MONGO_URL: root:pass12345@localhost
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
-  mongodb:
-    image: mongo:5.0.0
-    container_name: server-mongodb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=<USERNAME>
-      - MONGO_INITDB_ROOT_PASSWORD=<PASSWORD>
-    networks:
-      - server-network
+  candidates:
+    build:
+      context: ./backend # Path to the backend folder
+      dockerfile: Dockerfile
+    container_name: candidates-service
+    restart: always
+    depends_on:
+      - mongo
     ports:
-      - 27017:27017
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-networks:
-  server-network:
+      - "3000:3000" # Change to your backend port
+    environment:
+      MONGO_URI: mongodb://admin:secret@mongo:27017/mydatabase
+    volumes:
+      - ./backend:/app
+      - /usr/src/app/node_modules
+    command: npm run start
+  frontend:
+    build:
+      context: ./frontend # Path to the frontend folder
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+    command: ng serve
+
+volumes:
+  mongo_data:
+    driver: local
