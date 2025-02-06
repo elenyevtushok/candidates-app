@@ -1,0 +1,111 @@
+.candidates-page {
+  margin: 40px;
+  padding: 40px;
+  background-color: #ffffffd6;
+  border-radius: 20px;
+  box-shadow: -10px -10px #cbd6f3c9;
+  height: 80%;
+}
+
+.candidates-page-header {
+  font-size: 34px;
+  margin-bottom: 30px;
+  font-family: "Mona Sans", serif;
+  font-weight: 600;
+}
+
+.candidates-page-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.candidates-page-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  border-radius: var(--border-radius);
+  outline: none;
+  height: var(--btn-height);
+  padding: 0 30px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+  background-color: var(--primary-color-accent-blue);
+  border: 1px solid var(--primary-color-accent-blue);
+  box-shadow: 0px 4px 4px rgba(178, 178, 177, 0.722);
+}
+
+.candidates-page-add-button:hover {
+  background-color: #ffffff;
+  color: var(--primary-color-accent-blue);
+}
+
+.candidates-page-search-input {
+  font-size: 14px;
+  padding-left: 10px;
+  height: var(--btn-height);
+  width: 350px;
+  border: 1px solid var(--primary-color-accent-blue);
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  margin-bottom: 10px;
+}
+
+.candidates-page-search-icon {
+  left: -34px;
+  position: relative;
+  top: 8px;
+  color: var(--primary-color-accent-blue);
+}
+
+.candidates-page-table th,
+.candidates-page-table td {
+  font-family: "Mona Sans", serif;
+}
+
+.candidates-page-table-seniority {
+  display: inline-block;
+  color: var(--text-color);
+  padding: 2px 0;
+  text-transform: uppercase;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  width: 90px;
+}
+
+.candidates-page-table-seniority-junior {
+  background-color: var(--primary-color-accent-green);
+}
+
+.candidates-page-table-seniority-senior {
+  background-color: var(--primary-color-accent-yellow);
+}
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(
+    --primary-color-accent-blue
+  );
+}
+
+.candidates-page-table-availability-true {
+  color: #64fba1;
+}
+
+.candidates-page-table-availability-false {
+  color: #ff6f37;
+}
+
+.candidates-page-table-years {
+  width: 80%;
+  cursor: pointer;
+}
+
+.candidates-page-paginator {
+  margin-top: 7px;
+  box-shadow: 0px 4px 4px rgba(178, 178, 177, 0.722);
+}

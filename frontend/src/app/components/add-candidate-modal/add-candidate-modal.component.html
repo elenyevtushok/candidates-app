@@ -1,0 +1,140 @@
+<div class="add-candidate">
+  <div class="add-candidate-header">
+    <span class="add-candidate-header-image material-symbols-outlined">
+      person_add
+    </span>
+    <div>
+      <div>Add candidate</div>
+      <h1 class="add-candidate-header-h1">Fill the required data</h1>
+    </div>
+  </div>
+  <form [formGroup]="candidateForm" (ngSubmit)="onSubmitAddCandidateForm()">
+    <div class="add-candidate-inputs">
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        class="add-candidate-input"
+      >
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          id="name"
+          formControlName="name"
+          type="text"
+        />
+        <mat-error *ngIf="candidateForm.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        floatLabel="always"
+        class="add-candidate-input"
+      >
+        <mat-label>Surname</mat-label>
+        <input
+          matInput
+          id="surname"
+          formControlName="surname"
+          type="text"
+        />
+        <mat-error *ngIf="candidateForm.get('surname')?.hasError('required')">
+          Surname is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="add-candidate-file-area">
+      <div class="add-candidate-file-requirements">
+        <ul class="add-candidate-file-requirements-header">
+          Create an excel file and fill it with the required data (1 line, 3
+          cells):
+          <li>Seniority (senior or junior)</li>
+          <li>Years of experience</li>
+          <li>Availability (true or false)</li>
+        </ul>
+        <div class="add-candidate-file-hint">
+          Alternativelly, you can download the example file, fill it with your
+          data and upload
+        </div>
+      </div>
+      <div
+        class="add-candidate-drag-drop-area"
+        (drop)="onFileDrop($event)"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+      >
+        <div>
+          <div class="add-candidate-drag-drop-area-animations">
+            <app-upload-file-animation
+              *ngIf="!fileSelected"
+            ></app-upload-file-animation>
+            <app-file-uploaded-animation
+              *ngIf="fileSelected"
+            ></app-file-uploaded-animation>
+          </div>
+          <div class="add-candidate-drag-drop-area-text">
+            <input
+              type="file"
+              id="file"
+              name="file"
+              style="display: none"
+              accept=".xlsx"
+              (change)="onFileUploadChange($event)"
+              required
+            />
+            <label
+              *ngIf="!fileSelected"
+              for="file"
+              id="labelarchivo"
+              class="drag-drop-label"
+            >
+              Browse your files or drag and drop file here
+            </label>
+            <div *ngIf="fileSelected" class="drag-drop-label">
+              {{ fileName }}
+            </div>
+          </div>
+        </div>
+        <div class="add-candidate-file-buttons">
+          <button
+            id="download-button"
+            type="button"
+            class="add-candidate-download-button"
+            (click)="downloadExample()"
+          >
+            Download Example
+          </button>
+          <button
+            id="browse-button"
+            type="button"
+            class="add-candidate-browse-button"
+            (click)="browseFiles()"
+          >
+            Choose a file
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="add-candidate-modal-buttons">
+      <button
+        color="primary"
+        type="button"
+        [mat-dialog-close]="true"
+        (click)="onCloseModal()"
+        class="add-candidate-modal-button-close"
+      >
+        Close
+      </button>
+      <button
+        color="primary"
+        type="submit"
+        [disabled]="!candidateForm.valid"
+        class="add-candidate-modal-button-submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
