@@ -4,8 +4,8 @@ FROM node:22
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 
-# Copy to the root of the container
-COPY . /  
+# Set working directory to the Angular project folder
+WORKDIR /app
 
 # Copy application files
 COPY . .
