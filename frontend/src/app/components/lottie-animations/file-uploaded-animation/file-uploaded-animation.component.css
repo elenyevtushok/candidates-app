@@ -1,0 +1,11 @@
+.upload-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.upload-animation ng-lottie {
+  width: 70px;
+  height: 70px;
+}

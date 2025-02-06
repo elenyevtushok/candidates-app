@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color-accent-blue: #5450dc;
+  --primary-color-accent-green: #85ffbd;
+  --primary-color-accent-yellow: #fffb7d;
+  --text-color: #ffffff;
+  --border-radius: 20px;
+  --btn-height: 35px;
+  --main-font: "Mona Sans", serif;
+}
+
+body {
+  background-color: #5450dc;
+  background-image: linear-gradient(
+    45deg,
+    #5450dc 10%,
+    #85ffbd 50%,
+    #fffb7d 100%
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-attachment: fixed;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: --main-font;
+}
+
+
+button {
+  cursor: pointer;
+  outline: none;
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 10px 20px;
+  width: 230px;
+  border-radius: 5px;
+  font-family: "Mona Sans", serif;
+}
