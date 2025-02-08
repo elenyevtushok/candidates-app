@@ -24,7 +24,7 @@ services:
     ports:
       - "3000:3000" # Change to your backend port
     environment:
-      MONGO_URI: mongodb://admin:secret@mongo:27017/mydatabase
+      MONGO_URI: mongodb://admin:secret@mongo:27017/candidates-app?authSource=admin
     volumes:
       - ./backend:/app
       - /app/node_modules
