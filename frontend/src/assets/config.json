@@ -1,6 +1,6 @@
 {
 	"apiUrl": "http://localhost:3000",
-	"useMockData": true,
+	"useMockData": false,
 	"mockUsers": [
 		{
 		"name": "John",

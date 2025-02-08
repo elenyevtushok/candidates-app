@@ -44,7 +44,7 @@ export class CandidatesService {
       return of(mockCandidate);
     }
     return this.httpClient.post<Candidate>(
-      `${this.baseUrl}/add-candidate`,
+      `${this.baseUrl}/candidates`,
       formData
     );
   }
