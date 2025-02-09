@@ -13,6 +13,9 @@ COPY . .
 # Install dependencies
 RUN npm install
 
+# Build the Angular application
+RUN npm run build
+
 # Expose the port your NestJS app runs on
 EXPOSE 4200
 
