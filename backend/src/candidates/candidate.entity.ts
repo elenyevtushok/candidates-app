@@ -1,7 +1,7 @@
 import { Entity, ObjectIdColumn, ObjectId, Column } from 'typeorm';
 import { Seniority } from './candidates.model';
 
-// Use candidates collection
+// mapped to the "candidates" collection
 @Entity('candidates')
 export class CandidateEntity {
   @ObjectIdColumn()

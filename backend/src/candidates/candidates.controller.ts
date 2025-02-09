@@ -32,10 +32,11 @@ export class CandidateController {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<Candidate> {
     try {
-      const parsedFileData =
-        await this.excelParserService.parseCandidateData(file);
-
-      return this.candidateService.createCandidate(request, parsedFileData);
+      return this.excelParserService
+        .parseCandidateData(file)
+        .then((candidateFileModel) =>
+          this.candidateService.createCandidate(request, candidateFileModel),
+        );
     } catch (error) {
       throw new BadRequestException(error.message);
     }

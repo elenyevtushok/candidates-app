@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MongoRepository, Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CandidateEntity } from './candidate.entity';
 import {
   Candidate,
@@ -67,7 +67,7 @@ export class CandidateService {
     };
   }
 
-  private convertToPaginated<T>(
+  convertToPaginated<T>(
     data: T[],
     total: number,
     page: number,
