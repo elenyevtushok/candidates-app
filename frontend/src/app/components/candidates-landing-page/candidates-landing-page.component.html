@@ -1,124 +1,92 @@
 <div class="candidates-page">
-  <h1 class="candidates-page-header">Candidates</h1>
+	<h1 class="candidates-page-header">Candidates</h1>
 
-  <div class="candidates-page-content">
-    <div class="candidates-page-actions">
-      <div class="candidates-page-search">
-        <input
-          matInput
-          (keyup)="applyFilter($event)"
-          placeholder="Search..."
-          class="candidates-page-search-input"
-          #input
-        />
-        <span class="material-symbols-outlined candidates-page-search-icon"
-          >search</span
-        >
-      </div>
-      <button
-        (click)="openAddCandidateDialog()"
-        class="candidates-page-add-button"
-      >
-        <span class="material-symbols-outlined">add</span>
-        <span>Add candidate</span>
-      </button>
-    </div>
+	<div class="candidates-page-content">
+		<div class="candidates-page-actions">
+			<div class="candidates-page-search">
+				<input matInput (keyup)="applyFilter($event)" placeholder="Search..." class="candidates-page-search-input"
+					#input />
+				<span class="material-symbols-outlined candidates-page-search-icon">search</span>
+			</div>
+			<button (click)="openAddCandidateDialog()" class="candidates-page-add-button">
+				<span class="material-symbols-outlined">add</span>
+				<span>Add candidate</span>
+			</button>
+		</div>
 
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      class="candidates-page-table mat-elevation-z8"
-    >
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let candidate">{{ candidate.name }}</td>
-      </ng-container>
+		<table mat-table [dataSource]="dataSource" matSort class="candidates-page-table mat-elevation-z8">
+			<!-- Name Column -->
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+				<td mat-cell *matCellDef="let candidate">{{ candidate.name }}</td>
+			</ng-container>
 
-      <!-- Surname Column -->
-      <ng-container matColumnDef="surname">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Surname</th>
-        <td mat-cell *matCellDef="let candidate">{{ candidate.surname }}</td>
-      </ng-container>
+			<!-- Surname Column -->
+			<ng-container matColumnDef="surname">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Surname</th>
+				<td mat-cell *matCellDef="let candidate">{{ candidate.surname }}</td>
+			</ng-container>
 
-      <!-- Seniority Column -->
-      <ng-container matColumnDef="seniority">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Seniority</th>
-        <td mat-cell *matCellDef="let candidate">
-          <span
-            class="candidates-page-table-seniority"
-            [ngClass]="{
+			<!-- Seniority Column -->
+			<ng-container matColumnDef="seniority">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Seniority</th>
+				<td mat-cell *matCellDef="let candidate">
+					<span class="candidates-page-table-seniority" [ngClass]="{
               'candidates-page-table-seniority-junior':
                 candidate.seniority === 'junior',
               'candidates-page-table-seniority-senior':
                 candidate.seniority === 'senior'
-            }"
-            >{{ candidate.seniority }}</span
-          >
-        </td>
-      </ng-container>
+            }">{{ candidate.seniority }}</span>
+				</td>
+			</ng-container>
 
-      <!-- YearsExperience Column -->
-      <ng-container matColumnDef="yearsExperience">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-          Years of experience
-        </th>
-        <td mat-cell *matCellDef="let candidate">
-          <div
-            class="candidates-page-table-years"
-            matTooltip="{{
+			<!-- YearsExperience Column -->
+			<ng-container matColumnDef="yearsExperience">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Years of experience
+				</th>
+				<td mat-cell *matCellDef="let candidate">
+					<div class="candidates-page-table-years" matTooltip="{{
               candidate.yearsExperience > 10
                 ? '10+ years'
                 : candidate.yearsExperience === 1
                 ? '1 year'
                 : candidate.yearsExperience + ' years'
-            }}"
-          >
-            <mat-progress-bar
-              mode="determinate"
-              [value]="getExperienceValue(candidate.yearsExperience)"
-            >
-            </mat-progress-bar>
-          </div>
-        </td>
-      </ng-container>
+            }}">
+						<mat-progress-bar mode="determinate" [value]="getExperienceValue(candidate.yearsExperience)">
+						</mat-progress-bar>
+					</div>
+				</td>
+			</ng-container>
 
-      <!-- Availability Column -->
-      <ng-container matColumnDef="availability">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Availability</th>
-        <td mat-cell *matCellDef="let candidate">
-          <span
-            *ngIf="candidate.availability"
-            class="material-symbols-outlined candidates-page-table-availability-true"
-          >
-            check_circle
-          </span>
-          <span
-            *ngIf="!candidate.availability"
-            class="material-symbols-outlined candidates-page-table-availability-false"
-          >
-            cancel
-          </span>
-        </td>
-      </ng-container>
+			<!-- Availability Column -->
+			<ng-container matColumnDef="availability">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Availability</th>
+				<td mat-cell *matCellDef="let candidate">
+					<span *ngIf="candidate.availability"
+						class="material-symbols-outlined candidates-page-table-availability-true">
+						check_circle
+					</span>
+					<span *ngIf="!candidate.availability"
+						class="material-symbols-outlined candidates-page-table-availability-false">
+						cancel
+					</span>
+				</td>
+			</ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
-          No data matching the filter "{{ input.value }}"
-        </td>
-      </tr>
-    </table>
+			<!-- Row shown when there is no matching data. -->
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="4">
+					No data matching the filter "{{ input.value }}"
+				</td>
+			</tr>
+		</table>
 
-    <mat-paginator
-      class="candidates-page-paginator"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Select page of repos"
-      #paginator="matPaginator"
-    ></mat-paginator>
-  </div>
+		<mat-paginator [length]="totalItems" class="candidates-page-paginator" [pageSizeOptions]="[10, 25, 100]"
+			aria-label="Select page of candidates" showFirstLastButtons #paginator>
+		</mat-paginator>
+	</div>
 </div>
