@@ -30,9 +30,6 @@ export class CandidatesLandingPageComponent {
 	totalItems = 0;
 	firstPage = 0;
 	defaultPageSize = 10;
-	// pageSize = 10;
-	// currentPage = 0;
-	// totalPages = 0;
 
 	constructor(
 		private readonly candidatesService: CandidatesService,
@@ -52,18 +49,13 @@ export class CandidatesLandingPageComponent {
 		this.dataSource.paginator = this.paginator;
 
 		this.paginator.page.subscribe(() => {
-
-			//console.log('Before Fetch - Current Page:', this.paginator.pageIndex);
-			// console.log('Before Fetch - Total Items:', this.totalItems);
-			console.log('Before Fetch - Page Size:', this.paginator.pageSize);
-
-			console.log('Paginator:', this.paginator);
-
-
 			this.fetchCandidatesList(this.paginator.pageIndex, this.paginator.pageSize);
 		});
 	}
 
+	/**
+	 * Fetch candidates list
+	 */
 	fetchCandidatesList(pageIndex: number, pageSize: number) {
 		this.candidatesService.getAllCandidates(pageIndex, pageSize).pipe(
 			catchError((error) => {
@@ -76,11 +68,12 @@ export class CandidatesLandingPageComponent {
 				this.totalItems = response.meta.total;
 				this.dataSource = new MatTableDataSource(this.candidates);
 			}
-			// console.log('After Fetch - Total Items:', this.totalItems);
-			console.log('After Fetch - Current Page:', this.paginator.pageIndex);
 		});
 	}
 
+	/**
+	 * Apply filter to the table
+	 */
 	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -90,10 +83,16 @@ export class CandidatesLandingPageComponent {
 		}
 	}
 
+	/**
+	 * Get experience value for progress bar
+	 */
 	getExperienceValue(years: number): number {
 		return years > 10 ? 100 : (years / 10) * 100;
 	}
 
+	/**
+	 * Open add candidate modal
+	 */
 	openAddCandidateDialog(): void {
 		const dialogRef = this.dialog.open(AddCandidateModalComponent, {
 			width: '90%',

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FileUploadedAnimationComponent } from './file-uploaded-animation.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('FileUploadedAnimationComponent', () => {
   let component: FileUploadedAnimationComponent;
@@ -8,7 +9,8 @@ describe('FileUploadedAnimationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FileUploadedAnimationComponent]
+      declarations: [FileUploadedAnimationComponent],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
     fixture = TestBed.createComponent(FileUploadedAnimationComponent);
     component = fixture.componentInstance;

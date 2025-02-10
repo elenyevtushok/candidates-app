@@ -45,8 +45,8 @@
       </mat-form-field>
     </div>
 
-    <div class="add-candidate-file-area">
-      <div class="add-candidate-file-requirements">
+    <div>
+      <div>
         <ul class="add-candidate-file-requirements-header">
           Create an excel file and fill it with the required data (1 line, 3
           cells):
@@ -80,15 +80,14 @@
               id="file"
               name="file"
               style="display: none"
-              accept=".xlsx"
+              accept=".xls, .xlsx"
               (change)="onFileUploadChange($event)"
               required
             />
             <label
               *ngIf="!fileSelected"
               for="file"
-              id="labelarchivo"
-              class="drag-drop-label"
+              id="label-add-file"
             >
               Browse your files or drag and drop file here
             </label>
@@ -124,6 +123,7 @@
         [mat-dialog-close]="true"
         (click)="onCloseModal()"
         class="add-candidate-modal-button-close"
+				id="add-candidate-modal-button-close"
       >
         Close
       </button>
@@ -132,6 +132,7 @@
         type="submit"
         [disabled]="!candidateForm.valid"
         class="add-candidate-modal-button-submit"
+				id="add-candidate-modal-button-submit"
       >
         Submit
       </button>

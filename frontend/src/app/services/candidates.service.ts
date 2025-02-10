@@ -19,12 +19,18 @@ export class CandidatesService {
 		this.baseUrl = config.apiUrl;
 	}
 
+	/**
+	 * Get all candidates
+	 */
 	getAllCandidates(page: number, perPage: number): Observable<Paginated<Candidate>> {
 		return this.httpClient.get<Paginated<Candidate>>(
 			`${this.baseUrl}/candidates?page=${page}&limit=${perPage}`
 		);
 	}
 
+	/**
+	 * Add new candidate
+	 */
 	addNewCandidate(formData: FormData): Observable<Candidate> {
 		return this.httpClient.post<Candidate>(
 			`${this.baseUrl}/candidates`,
