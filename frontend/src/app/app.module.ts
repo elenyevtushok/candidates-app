@@ -22,6 +22,7 @@ import { UploadFileAnimationComponent } from './components/lottie-animations/upl
 import { FileUploadedAnimationComponent } from './components/lottie-animations/file-uploaded-animation/file-uploaded-animation.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
 export function playerFactory() {
   return player;
@@ -37,6 +38,7 @@ export function loadConfig(configService: ConfigService) {
     AddCandidateModalComponent,
     UploadFileAnimationComponent,
     FileUploadedAnimationComponent,
+    ErrorModalComponent,
   ],
   imports: [
     BrowserModule,

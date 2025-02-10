@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CandidatesService } from '../../services/candidates.service';
 import { saveAs } from 'file-saver';
 import { catchError, EMPTY, take } from 'rxjs';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 
 @Component({
 	selector: 'app-add-candidate-modal',
@@ -18,7 +19,8 @@ export class AddCandidateModalComponent {
 	constructor(
 		private fb: FormBuilder,
 		private readonly dialogRef: MatDialogRef<AddCandidateModalComponent>,
-		private readonly candidatesService: CandidatesService
+		private readonly candidatesService: CandidatesService,
+		private readonly dialog: MatDialog
 	) { }
 
 	ngOnInit() {
@@ -43,7 +45,8 @@ export class AddCandidateModalComponent {
 				.pipe(
 					take(1),
 					catchError((error) => {
-						console.error('Error submitting form', error);
+						const errorMessage = error.error?.message || 'An error occurred while adding the candidate';
+						this.openErrorDialog(errorMessage);
 						return EMPTY;
 					})
 				)
@@ -152,5 +155,20 @@ export class AddCandidateModalComponent {
 		this.fileSelected = false;
 		this.fileName = '';
 		this.dialogRef.close();
+	}
+
+	/**
+	 * Handle error dialog
+	 */
+	private openErrorDialog(errorMessage: string): void {
+		const dialogRef=this.dialog.open(ErrorModalComponent, {
+			width: '500px',
+			data: {
+				title: 'An error occurred on submit request',
+				errorMessage,
+				body: 'Double check that the data in excel corresponds to the example file and requirements',
+				button: 'Close'
+			}
+		});
 	}
 }

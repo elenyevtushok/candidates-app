@@ -1,0 +1,36 @@
+.error-modal-container {
+	padding: 20px;
+	min-width: 300px;
+}
+
+.error-title {
+	font-family: "Mona Sans", serif;
+	color: var(--primary-color-accent-blue);
+	margin: 0;
+	font-size: 22px;
+}
+
+.error-content {
+	margin: 20px 0;
+	color: #333;
+	font-family: "Mona Sans", serif;
+}
+
+.close-button {
+	margin-right: 40px;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--primary-color-accent-blue);
+	background-color: #ffffff;
+	color: var(--primary-color-accent-blue);
+	box-shadow: 0px 4px 4px rgba(178, 178, 177, 0.722);
+}
+
+.close-button:hover {
+	background-color: var(--primary-color-accent-blue);
+	color: #ffffff;
+}
+
+mat-dialog-actions {
+	margin-bottom: 0;
+	padding: 8px 0;
+}

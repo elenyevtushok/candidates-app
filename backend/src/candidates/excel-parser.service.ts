@@ -74,7 +74,7 @@ export class ExcelParserService {
       return Seniority.SENIOR;
     }
 
-    throw new Error(
+		throw new BadRequestException(
       `Invalid seniority value: ${value}. Expected 'junior' or 'senior'`,
     );
   }
