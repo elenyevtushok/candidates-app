@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { catchError, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, of, Subject } from 'rxjs';
 import { Candidate } from 'src/app/models/candidate';
 import { CandidatesService } from 'src/app/services/candidates.service';
 import { AddCandidateModalComponent } from '../add-candidate-modal/add-candidate-modal.component';
@@ -27,6 +26,8 @@ export class CandidatesLandingPageComponent {
 		[]
 	);
 
+	private searchSubject = new Subject<string>();
+
 	totalItems = 0;
 	firstPage = 0;
 	defaultPageSize = 10;
@@ -38,14 +39,19 @@ export class CandidatesLandingPageComponent {
 	) { }
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
-	@ViewChild(MatSort) sort!: MatSort;
 
 	ngOnInit() {
 		this.fetchCandidatesList(this.firstPage, this.defaultPageSize);
+
+		this.searchSubject.pipe(
+			debounceTime(300),
+			distinctUntilChanged()
+		).subscribe(searchTerm => {
+			this.fetchCandidatesList(0, this.defaultPageSize, searchTerm);
+		});
 	}
 
 	ngAfterViewInit() {
-		this.dataSource.sort = this.sort;
 		this.dataSource.paginator = this.paginator;
 
 		this.paginator.page.subscribe(() => {
@@ -56,8 +62,8 @@ export class CandidatesLandingPageComponent {
 	/**
 	 * Fetch candidates list
 	 */
-	fetchCandidatesList(pageIndex: number, pageSize: number) {
-		this.candidatesService.getAllCandidates(pageIndex, pageSize).pipe(
+	fetchCandidatesList(pageIndex: number, pageSize: number, searchTerm?: string) {
+		this.candidatesService.getAllCandidates(pageIndex, pageSize, searchTerm).pipe(
 			catchError((error) => {
 				console.error('Error fetching candidates', error);
 				return of({ data: [], meta: { total: 0, lastPage: 0, currentPage: 0, perPage: this.paginator.pageSize } });
@@ -76,13 +82,12 @@ export class CandidatesLandingPageComponent {
 	 */
 	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
-		this.dataSource.filter = filterValue.trim().toLowerCase();
+		this.searchSubject.next(filterValue.trim().toLowerCase());
 
 		if (this.dataSource.paginator) {
 			this.dataSource.paginator.firstPage();
 		}
 	}
-
 	/**
 	 * Get experience value for progress bar
 	 */

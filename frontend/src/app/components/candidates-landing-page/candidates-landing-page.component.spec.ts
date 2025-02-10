@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CandidatesLandingPageComponent } from './candidates-landing-page.component';
 import { CandidatesService } from '../../services/candidates.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { of, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, of, throwError } from 'rxjs';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Candidate } from '../../models/candidate';
@@ -30,7 +29,6 @@ describe('CandidatesLandingPageComponent', () => {
 			imports: [
 				BrowserAnimationsModule,
 				MatPaginatorModule,
-				MatSortModule,
 				MatTableModule,
 				MatDialogModule,
 				MatProgressBarModule
@@ -101,28 +99,24 @@ describe('CandidatesLandingPageComponent', () => {
 		expect(component.candidates).toEqual([]);
 	});
 
-	it('should filter candidates', () => {
-		const event = { target: { value: 'john' } } as unknown as Event;
-		component.dataSource.data = [
-			{
-				name: 'John',
-				surname: 'Doe',
-				seniority: 'senior',
-				yearsExperience: 5,
-				availability: true,
-			},
-			{
-				name: 'Jane',
-				surname: 'Smith',
-				seniority: 'junior',
-				yearsExperience: 2,
-				availability: false,
-			},
-		];
+	it('should trigger search with filtered value', (done) => {
+		const searchTerm = 'john';
+		const event = { target: { value: searchTerm } } as unknown as Event;
+
+		// Spy on the fetchCandidatesList method
+		spyOn(component, 'fetchCandidatesList');
+
+		// Subscribe to the searchSubject to verify the search term
+		(component as any).searchSubject.pipe(
+			debounceTime(300),
+			distinctUntilChanged()
+		).subscribe((value: string) => {
+			expect(value).toBe(searchTerm.toLowerCase());
+			expect(component.fetchCandidatesList).toHaveBeenCalledWith(0, component.defaultPageSize, searchTerm.toLowerCase());
+			done();
+		});
 
 		component.applyFilter(event);
-
-		expect(component.dataSource.filter).toBe('john');
 	});
 
 	it('should open add candidate dialog', () => {

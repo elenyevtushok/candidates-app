@@ -53,7 +53,7 @@ export class CandidateService {
       .findAndCount({
         where: filter,
         skip: page * limit,
-		  take: limit,
+		    take: limit,
       })
       .then(([data, total]) =>
         this.convertToPaginated(data, total, page, limit),

@@ -20,7 +20,6 @@ import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 import { UploadFileAnimationComponent } from './components/lottie-animations/upload-file-animation/upload-file-animation.component';
 import { FileUploadedAnimationComponent } from './components/lottie-animations/file-uploaded-animation/file-uploaded-animation.component';
-import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
@@ -53,7 +52,6 @@ export function loadConfig(configService: ConfigService) {
     MatDialogModule,
     ReactiveFormsModule,
     LottieModule.forRoot({ player: playerFactory }),
-    MatSortModule,
     MatPaginatorModule,
   ],
   providers: [

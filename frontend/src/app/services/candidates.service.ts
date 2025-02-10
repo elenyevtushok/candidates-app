@@ -22,10 +22,12 @@ export class CandidatesService {
 	/**
 	 * Get all candidates
 	 */
-	getAllCandidates(page: number, perPage: number): Observable<Paginated<Candidate>> {
-		return this.httpClient.get<Paginated<Candidate>>(
-			`${this.baseUrl}/candidates?page=${page}&limit=${perPage}`
-		);
+	getAllCandidates(page: number, perPage: number, search?: string): Observable<Paginated<Candidate>> {
+		let url = `${this.baseUrl}/candidates?page=${page}&limit=${perPage}`;
+		if (search) {
+			url += `&search=${encodeURIComponent(search)}`;
+		}
+		return this.httpClient.get<Paginated<Candidate>>(url);
 	}
 
 	/**
